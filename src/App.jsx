@@ -208,12 +208,12 @@ const BottomDock = ({ activeTab, setActiveTab }) => (
       {activeTab === 'search' && <motion.div layoutId="dock-glow" className="absolute inset-0 rounded-full blur-md bg-[#800020]/60 -z-10" />}
     </button>
 
-    <button onClick={() => setActiveTab('home')} className="relative p-2 rounded-full outline-none group">
+    <button onClick={() => setActiveTab('info')} className="relative p-2 rounded-full outline-none group">
       <div className="w-6 h-6 flex items-center justify-center overflow-hidden">
         <img
           src={LOGO_URL}
           alt="TAO Mini"
-          className={`w-full h-full object-contain transition-all filter grayscale brightness-200 ${activeTab === 'home' ? 'opacity-100' : 'opacity-40 group-hover:opacity-100'}`}
+          className={`w-full h-full object-contain transition-all filter grayscale brightness-200 ${activeTab === 'info' ? 'opacity-100' : 'opacity-40 group-hover:opacity-100'}`}
         />
       </div>
     </button>
@@ -289,7 +289,7 @@ const ScreenMenu = () => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -30 }}
       className="h-full flex flex-col overflow-hidden"
-      style={{ paddingTop: '80px' }}
+      style={{ paddingTop: 'env(safe-area-inset-top, 60px)' }}
     >
       <Logo />
 
@@ -363,6 +363,50 @@ const ScreenMenu = () => {
     </motion.div>
   );
 };
+
+const ScreenInfo = () => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 20 }}
+    className="h-full flex flex-col items-center justify-start pt-[env(safe-area-inset-top,20px)] overflow-y-auto pb-32 no-scrollbar"
+  >
+    <Logo />
+    <div className="w-full max-w-md px-6 mt-4 space-y-6">
+      {/* Map */}
+      <div className="w-full h-64 rounded-[30px] overflow-hidden border border-white/10 shadow-2xl relative">
+        <iframe
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          scrolling="no"
+          marginHeight="0"
+          marginWidth="0"
+          src="https://maps.google.com/maps?q=Kaiserstra%C3%9Fe%2041,%2076437%20Rastatt&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          style={{ filter: 'grayscale(100%) invert(90%)' }}
+          title="Google Map"
+        ></iframe>
+        <div className="absolute inset-0 pointer-events-none border border-white/10 rounded-[30px]" />
+      </div>
+
+      {/* Details */}
+      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 text-center space-y-6 shadow-xl">
+        <div>
+          <p className="text-[#BF953F] text-[10px] font-bold tracking-[0.2em] uppercase mb-1">Adresse</p>
+          <p className="text-white text-sm font-light leading-relaxed">Kaiserstraße 41<br />76437 Rastatt</p>
+        </div>
+        <div>
+          <p className="text-[#BF953F] text-[10px] font-bold tracking-[0.2em] uppercase mb-1">Telefon</p>
+          <a href="tel:072229848477" className="text-white text-sm font-light hover:text-[#BF953F] transition-colors">07222 9848477</a>
+        </div>
+        <div>
+          <p className="text-[#BF953F] text-[10px] font-bold tracking-[0.2em] uppercase mb-1">Öffnungszeiten</p>
+          <p className="text-white text-sm font-light">Mo - So: 11:00 – 22:30</p>
+        </div>
+      </div>
+    </div>
+  </motion.div>
+);
 
 const ScreenBooking = () => {
   const [selected, setSelected] = useState(null);
@@ -481,6 +525,7 @@ export default function App() {
           {activeTab === 'home' && <ScreenHome key="home" setActiveTab={setActiveTab} />}
           {activeTab === 'menu' && <ScreenMenu key="menu" />}
           {activeTab === 'booking' && <ScreenBooking key="booking" />}
+          {activeTab === 'info' && <ScreenInfo key="info" />}
           {activeTab === 'search' && <ScreenMenu key="search" />}
         </AnimatePresence>
 
