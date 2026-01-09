@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Home,
   Search,
@@ -275,6 +275,13 @@ const ScreenHome = ({ setActiveTab }) => (
 const ScreenMenu = () => {
   const [activeCategory, setActiveCategory] = useState("SALATE");
   const categories = Object.keys(MENU_DATA);
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+  }, [activeCategory]);
 
   return (
     <motion.div
@@ -282,12 +289,12 @@ const ScreenMenu = () => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -30 }}
       className="h-full flex flex-col overflow-hidden"
-      style={{ paddingTop: 'env(safe-area-inset-top, 60px)' }}
+      style={{ paddingTop: 'env(safe-area-inset-top, 40px)' }}
     >
       <Logo />
 
       {/* Kategoriefilter-Leiste */}
-      <div className="px-6 mt-6 mb-8">
+      <div className="px-6 mt-6 mb-8 z-10">
         <div className="flex gap-4 overflow-x-auto no-scrollbar py-2">
           {categories.map((cat) => (
             <button
@@ -305,7 +312,10 @@ const ScreenMenu = () => {
       </div>
 
       {/* Kinetischer Karten-Slider */}
-      <div className="flex-1 px-4 overflow-x-auto no-scrollbar flex items-center gap-6 pt-16 pb-32 snap-x snap-mandatory">
+      <div
+        ref={scrollRef}
+        className="flex-1 px-4 overflow-x-auto no-scrollbar flex items-center gap-6 pb-32 snap-x snap-mandatory"
+      >
         <AnimatePresence mode="popLayout">
           {MENU_DATA[activeCategory].map((item, idx) => (
             <motion.div
@@ -314,9 +324,7 @@ const ScreenMenu = () => {
               initial={{ opacity: 0, scale: 0.8, x: 50 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.8, x: -50 }}
-              transition={{ type: "spring", stiffness: 200, damping: 25 }}
-              dragElastic={0.1}
-              dragConstraints={{ left: 0, right: 0 }}
+              transition={{ type: "spring", stiffness: 150, damping: 25 }}
               className="min-w-[85vw] md:min-w-[400px] h-[55vh] relative rounded-[40px] overflow-hidden border border-white/20 shadow-2xl backdrop-blur-xl snap-center"
               style={{ background: GLASS_BG }}
             >
