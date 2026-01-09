@@ -304,7 +304,7 @@ const ScreenMenu = () => {
       </div>
 
       {/* Kinetischer Karten-Slider */}
-      <div className="flex-1 px-4 overflow-x-auto no-scrollbar flex items-center gap-6 pt-8 pb-32 snap-x snap-mandatory">
+      <div className="flex-1 px-4 overflow-x-auto no-scrollbar flex items-center gap-6 pt-16 pb-32 snap-x snap-mandatory">
         <AnimatePresence mode="popLayout">
           {MENU_DATA[activeCategory].map((item, idx) => (
             <motion.div
@@ -315,7 +315,7 @@ const ScreenMenu = () => {
               exit={{ opacity: 0, scale: 0.8, x: -50 }}
               transition={{ type: 'spring', stiffness: 100, damping: 20, mass: 1 }}
               dragElastic={0.1}
-              dragConstraints={{ left: -1000, right: 0 }}
+              dragConstraints={{ left: 0, right: 0 }}
               className="min-w-[85vw] md:min-w-[400px] h-[55vh] relative rounded-[40px] overflow-hidden border border-white/20 shadow-2xl backdrop-blur-xl snap-center"
               style={{ background: GLASS_BG }}
             >
