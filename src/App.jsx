@@ -289,12 +289,12 @@ const ScreenMenu = () => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -30 }}
       className="h-full flex flex-col overflow-hidden"
-      style={{ paddingTop: 'env(safe-area-inset-top, 40px)' }}
+      style={{ paddingTop: '80px' }}
     >
       <Logo />
 
       {/* Kategoriefilter-Leiste */}
-      <div className="px-6 mt-6 mb-8 z-10">
+      <div className="px-6 mt-6 mb-8 z-10 backdrop-blur-md sticky top-0">
         <div className="flex gap-4 overflow-x-auto no-scrollbar py-2">
           {categories.map((cat) => (
             <button
@@ -324,7 +324,7 @@ const ScreenMenu = () => {
               initial={{ opacity: 0, scale: 0.8, x: 50 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.8, x: -50 }}
-              transition={{ type: "spring", stiffness: 150, damping: 25 }}
+              transition={{ type: "spring", stiffness: 120, damping: 20 }}
               className="min-w-[85vw] md:min-w-[400px] h-[55vh] relative rounded-[40px] overflow-hidden border border-white/20 shadow-2xl backdrop-blur-xl snap-center"
               style={{ background: GLASS_BG }}
             >
