@@ -282,6 +282,7 @@ const ScreenMenu = () => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -30 }}
       className="h-full flex flex-col overflow-hidden"
+      style={{ paddingTop: 'env(safe-area-inset-top, 60px)' }}
     >
       <Logo />
 
@@ -313,7 +314,7 @@ const ScreenMenu = () => {
               initial={{ opacity: 0, scale: 0.8, x: 50 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.8, x: -50 }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20, mass: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25 }}
               dragElastic={0.1}
               dragConstraints={{ left: 0, right: 0 }}
               className="min-w-[85vw] md:min-w-[400px] h-[55vh] relative rounded-[40px] overflow-hidden border border-white/20 shadow-2xl backdrop-blur-xl snap-center"
