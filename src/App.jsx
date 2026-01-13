@@ -19,7 +19,7 @@ import {
 import Logo from './components/Logo';
 import BottomDock from './components/Navbar';
 import { InfoModal, GuestSelectorModal } from './components/BookingModal';
-import MenuListItem from './components/MenuListItem';
+import MenuCard from './components/MenuCard';
 
 // --- Screen Components ---
 
@@ -147,24 +147,67 @@ const ScreenMenu = () => {
         </div>
       </div>
 
+      <style>{`
+        .force-menu-card {
+           min-width: 85vw !important;
+           width: 85vw !important;
+           max-width: 85vw !important;
+           flex-shrink: 0 !important;
+           scroll-snap-align: center !important;
+           margin-right: 0 !important;
+        }
+        .force-scroll-container {
+           display: flex !important;
+           flex-direction: row !important;
+           overflow-x: auto !important;
+           overflow-y: hidden !important;
+           touch-action: pan-x !important;
+           -webkit-overflow-scrolling: touch !important;
+           scroll-snap-type: x mandatory !important;
+        }
+      `}</style>
+
       {/* SINGLE TRACK RECYCLED CONTAINER */}
       {/* Key is explicitly OMITTED to prevent re-mounting/flashing */}
       <div
         ref={scrollRef}
-        className="flex-1 overflow-x-auto no-scrollbar flex items-center px-6 pb-28 snap-x snap-mandatory touch-pan-x"
-        style={{ overscrollBehaviorX: 'contain' }}
+        className="no-scrollbar flex-1 force-scroll-container"
+        style={{
+          // CRITICAL: This enables the Horizontal Swipe Layout
+          display: 'flex',              // Row layout by default
+          flexDirection: 'row',         // Forces items side-by-side
+          overflowX: 'auto',            // Enables horizontal scrolling
+          overflowY: 'hidden',          // Prevents vertical scrolling
+
+          // SNAPPING PHYSICS
+          scrollSnapType: 'x mandatory', // Apple-like snapping
+          scrollBehavior: 'smooth',
+
+          // SPACING
+          gap: '20px',                  // Space between cards
+          padding: '24px 20px 100px 20px', // <--- INCREASED BOTTOM PADDING TO 100px (Lifts cards above nav)
+          width: '100%',                // Full screen width
+
+          // ALIGNMENT
+          alignItems: 'start',         // <--- ALIGN TO TOP
+          overscrollBehaviorX: 'contain',
+
+          // HIDE SCROLLBAR
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'
+        }}
       >
-        {/* Instant Content Swap */}
-        {MENU_DATA[activeCategory].map((item, idx) => (
-          <div
-            key={item.name}
-            className="min-w-[85vw] snap-start mr-4 h-full max-h-[60vh] flex-shrink-0"
-          >
-            <MenuListItem item={item} idx={idx} />
-          </div>
+        {/* The Items */}
+        {MENU_DATA[activeCategory].map((item, index) => (
+          <MenuCard
+            key={index}
+            item={item}
+            idx={index}
+          />
         ))}
-        {/* End Spacer */}
-        <div className="min-w-[4vw] h-full" />
+
+        {/* Spacer to allow scrolling the last item to the center */}
+        <div style={{ minWidth: '20px', flexShrink: 0 }} />
       </div>
     </motion.div>
   );
@@ -204,7 +247,12 @@ const ScreenBooking = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="h-full flex flex-col overflow-hidden pt-[env(safe-area-inset-top)]"
+      className="h-full flex flex-col pt-[env(safe-area-inset-top)]"
+      style={{
+        overflowY: 'auto',
+        height: '100%',
+        paddingBottom: '150px'
+      }}
     >
       <Logo variant="minimized" />
 
